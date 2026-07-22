@@ -71,5 +71,23 @@ Maze* loadMaze(char* filename)
 
 void deleteMaze(Maze** mazePtr)
 {
-    
+    if (mazePtr != NULL && *mazePtr != NULL)
+    {
+        free(*mazePtr);
+        *mazePtr = NULL;
+    }
+}
+
+void displayMaze(Maze* maze)
+{
+    int i, j;
+
+    for (i = 0; i < maze->height; i++)
+    {
+        for (j = 0; j < maze->width; j++)
+        {
+            printf("%c", maze->map[i][j]);
+        }
+        printf("\n");
+    }
 }
