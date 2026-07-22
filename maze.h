@@ -71,9 +71,5 @@ Maze* loadMaze(char* filename)
 
 void deleteMaze(Maze** mazePtr)
 {
-if (mazePtr != NULL && *mazePtr != NULL)
-    {
-        free(*mazePtr);
-        *mazePtr = NULL;
-    }
+    
 }
