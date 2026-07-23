@@ -82,7 +82,7 @@ void displayMaze(Maze* maze)
     int i, j;
 
     // clear screen first before display
-    system("cls");
+    printf(clearScreen);
 
     for (i = 0; i < maze->height; i++)
     {

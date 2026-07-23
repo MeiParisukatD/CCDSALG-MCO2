@@ -9,6 +9,7 @@
 #include "stacks.h"
 #include "queue.h"
 
+#define clearScreen "\033[H\033[J"
 
 // Maze struct declaration
 typedef struct {
