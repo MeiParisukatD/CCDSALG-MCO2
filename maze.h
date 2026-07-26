@@ -26,5 +26,6 @@ Maze* loadMaze(char* filename);
 void deleteMaze(Maze** mazePtr);
 void displayMaze(Maze* maze);
 void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored);
+Stack* determinePath(Maze* maze, Position predecessor[30][30]);
 
 #endif // MAZE_H

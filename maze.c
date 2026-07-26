@@ -179,3 +179,27 @@ void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored)
 
     deleteQueue(&explore);
 }
+
+Stack* determinePath(Maze* maze, Position predecessor[30][30]) 
+{
+    Stack* pathStack = createStack();
+    Position step;
+    
+    // if the goal is not reached
+    if (predecessor[maze->goal.row][maze->goal.col].row == -1) 
+    {
+        // return an empty stack
+        return pathStack; 
+    }
+
+    step = maze->goal;
+
+    // trace backward until start is reached
+    while (step.row != -1 && step.col != -1) 
+    {
+        push(pathStack, step);
+        step = predecessor[step.row][step.col]; 
+    }
+    
+    return pathStack;
+}
