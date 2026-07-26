@@ -203,3 +203,26 @@ Stack* determinePath(Maze* maze, Position predecessor[30][30])
     
     return pathStack;
 }
+
+void animateSolution(Maze* maze, Stack* pathStack) 
+{
+    Position pos;
+
+    if (pathStack == NULL || isEmptyStack(pathStack)) 
+    {
+        printf("\nNo valid path to animate!\n");
+    } 
+    else 
+    {
+        while (!isEmptyStack(pathStack)) 
+        {
+            pos = pop(pathStack);
+
+            if (maze->map[pos.row][pos.col] != 'S' && maze->map[pos.row][pos.col] != 'G') 
+                maze->map[pos.row][pos.col] = '*'; 
+
+            displayMaze(maze); 
+            delay(200);
+        }
+    }
+}

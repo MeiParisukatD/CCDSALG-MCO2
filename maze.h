@@ -27,5 +27,6 @@ void deleteMaze(Maze** mazePtr);
 void displayMaze(Maze* maze);
 void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored);
 Stack* determinePath(Maze* maze, Position predecessor[30][30]);
+void animateSolution(Maze* maze, Stack* pathStack);
 
 #endif // MAZE_H
