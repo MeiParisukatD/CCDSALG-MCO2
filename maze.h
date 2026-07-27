@@ -1,7 +1,7 @@
 #ifndef MAZE_H
 #define MAZE_H
 
-#define _POSIX_C_SOURCE 199309L
+#define _POSIX_C_SOURCE 199309L     // for nanosleep
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +9,8 @@
 #include "stack.h"
 #include "queue.h"
 
-#define CLEARSCREEN "\033[H\033[J"
-#define DELAY 50
+#define CLEARSCREEN "\033[H\033[J"  // escape sequence for clearing screen
+#define DELAY 50                    // display delay in milliseconds 
 
 // Maze struct declaration
 typedef struct {
@@ -21,7 +21,7 @@ typedef struct {
     Position goal;
 } Maze;
 
-// Function prototypes
+// Function Prototypes
 void delay(long int milliseconds); 
 Maze* loadMaze(char* filename);
 void deleteMaze(Maze** mazePtr);
