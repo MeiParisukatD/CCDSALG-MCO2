@@ -13,7 +13,7 @@ int main()
     int i, j;
     
     int iter;
-    int totalIterations = 10000;
+    int totalIterations = 10000; 
     double tempTime, totalTime, execTime;   
 
     while (choice != 3)
@@ -33,11 +33,13 @@ int main()
                 printf("Enter filename (e.g., maze.txt): ");
                 scanf("%s", filename);
                 
+                // frees the old maze first before loading a new one
                 if (currentMaze != NULL)
                 {
                     deleteMaze(&currentMaze);
                 }
                 
+                // reading the maze map
                 currentMaze = loadMaze(filename);
                 
                 if (currentMaze != NULL)
@@ -47,17 +49,21 @@ int main()
                 break;
             
             case 2:
+                // if no maze map is loaded, display error message
                 if (currentMaze == NULL)
                 {
                     printf("Error: Please load a maze first before starting the simulation.\n");
                 }
                 else
                 {
+                    /* We gather execution time first before the animation */
                     tempTime = 0.0;
                     totalTime = 0.0;
 
+                    // stress test the BFS algo to 10000 iterations to gather an execution time
                     for (iter = 0; iter < totalIterations; iter++)
                     {
+                        // initialize the predecessor map positions to -1s
                         for (i = 0; i < 30; i++) {
                             for (j = 0; j < 30; j++) {
                                 predecessor[i][j].row = -1;
@@ -65,12 +71,16 @@ int main()
                             }
                         }
                         
+                        // then run bfs without animation (a flag of 0)
                         mazeBFS(currentMaze, predecessor, &cellsExplored, &tempTime, 0); 
-                        totalTime += tempTime;
+                        totalTime += tempTime;  // accumulate the time
                     }
-
+                    
+                    // average the total time by dividing it to the number of iterations
                     execTime = totalTime / totalIterations;
                     
+                    /* Now we can run the single BFS with animation */
+                    // initialize again the predecessor map since it has been populated by the previous BFS
                     for (i = 0; i < 30; i++)
                     {
                         for (j = 0; j < 30; j++)
@@ -79,25 +89,30 @@ int main()
                             predecessor[i][j].col = -1;
                         }
                     }
-
+                    
+                    // run BFS with animation (a flag of 1)
                     mazeBFS(currentMaze, predecessor, &cellsExplored, &tempTime, 1);
 
-                    path = determinePath(currentMaze, predecessor);
+                    // get the solution path
+                    path = buildPath(currentMaze, predecessor);
                     
+                    // get the size of the solution path (for the metrics)
                     if (path != NULL)
                     {
                         pathLength = path->size; 
                     }
 
+                    // then display the animation of the solution path
                     animateSolution(currentMaze, path);
 
+                    // lastly, display the metrics
                     printf("\n--- Simulation Metrics ---\n");
                     printf("Total cells explored : %d\n", cellsExplored);
                     printf("Final path length    : %d\n", pathLength);
                     printf("Execution time       : %.6f ms\n", execTime);
 
                     deleteStack(&path);
-                    
+                    // delete the maze 
                     deleteMaze(&currentMaze);
                     printf("\n(Maze memory cleared. Please load the maze again to rerun.)\n");
                 }
