@@ -82,7 +82,7 @@ void displayMaze(Maze* maze)
     int i, j;
 
     // clear screen first before display
-    printf(clearScreen);
+    printf(CLEARSCREEN);
 
     for (i = 0; i < maze->height; i++)
     {
@@ -94,30 +94,29 @@ void displayMaze(Maze* maze)
     }
 }
 
-void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored)
+void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored, double* execTimeMs, int withAnimation)
 {
     Queue* explore = createQueue();
     Position toExplore;
     Position up, right, down, left;
     int visited[30][30] = {0};
     int foundGoal = 0;
+    clock_t start_tick, end_tick;
+    
     *cellsExplored = 0;
+    *execTimeMs = 0.0;
 
+    start_tick = clock();
     enqueue(explore, maze->start);
     visited[maze->start.row][maze->start.col] = 1;
+    end_tick = clock();
+    *execTimeMs += ((double)(end_tick - start_tick)) / CLOCKS_PER_SEC * 1000.0;
 
     while(!isEmptyQueue(explore) && !foundGoal)
     {
+        start_tick = clock();
         toExplore = dequeue(explore);
         (*cellsExplored)++;
-
-        if (maze->map[toExplore.row][toExplore.col] != 'S' && maze->map[toExplore.row][toExplore.col] != 'G') 
-        {
-            maze->map[toExplore.row][toExplore.col] = '.'; 
-        }
-        
-        displayMaze(maze); 
-        delay(200);
 
         if (toExplore.row == maze->goal.row && toExplore.col == maze->goal.col)
         {
@@ -175,6 +174,19 @@ void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored)
                 }
             }
         }
+
+        end_tick = clock();
+        *execTimeMs += ((double)(end_tick - start_tick)) / CLOCKS_PER_SEC * 1000.0;
+
+        if (!foundGoal && withAnimation)
+        {
+            if (maze->map[toExplore.row][toExplore.col] != 'S' && maze->map[toExplore.row][toExplore.col] != 'G') 
+            {
+                maze->map[toExplore.row][toExplore.col] = '.'; 
+            }
+            displayMaze(maze); 
+            delay(DELAY);
+        }
     }   
 
     deleteQueue(&explore);
@@ -210,7 +222,7 @@ void animateSolution(Maze* maze, Stack* pathStack)
 
     if (pathStack == NULL || isEmptyStack(pathStack)) 
     {
-        printf("\nNo valid path to animate!\n");
+        printf("\nNo valid path!\n");
     } 
     else 
     {
@@ -222,7 +234,7 @@ void animateSolution(Maze* maze, Stack* pathStack)
                 maze->map[pos.row][pos.col] = '*'; 
 
             displayMaze(maze); 
-            delay(200);
+            delay(DELAY);
         }
     }
 }

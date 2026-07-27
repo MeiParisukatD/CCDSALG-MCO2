@@ -6,10 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "position.h"
-#include "stacks.h"
+#include "stack.h"
 #include "queue.h"
 
-#define clearScreen "\033[H\033[J"
+#define CLEARSCREEN "\033[H\033[J"
+#define DELAY 50
 
 // Maze struct declaration
 typedef struct {
@@ -25,7 +26,7 @@ void delay(long int milliseconds);
 Maze* loadMaze(char* filename);
 void deleteMaze(Maze** mazePtr);
 void displayMaze(Maze* maze);
-void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored);
+void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored, double* execTimeMs, int withAnimation);
 Stack* determinePath(Maze* maze, Position predecessor[30][30]);
 void animateSolution(Maze* maze, Stack* pathStack);
 

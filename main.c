@@ -1,4 +1,4 @@
-#include "maze.c"
+#include "maze.h"
 
 int main()
 {
@@ -12,8 +12,9 @@ int main()
     int pathLength = 0;
     int i, j;
     
-    clock_t start_time, end_time;
-    double exec_time_ms;
+    int iter;
+    int totalIterations = 10000;
+    double tempTime, totalTime, execTime;   
 
     while (choice != 3)
     {
@@ -52,6 +53,24 @@ int main()
                 }
                 else
                 {
+                    tempTime = 0.0;
+                    totalTime = 0.0;
+
+                    for (iter = 0; iter < totalIterations; iter++)
+                    {
+                        for (i = 0; i < 30; i++) {
+                            for (j = 0; j < 30; j++) {
+                                predecessor[i][j].row = -1;
+                                predecessor[i][j].col = -1;
+                            }
+                        }
+                        
+                        mazeBFS(currentMaze, predecessor, &cellsExplored, &tempTime, 0); 
+                        totalTime += tempTime;
+                    }
+
+                    execTime = totalTime / totalIterations;
+                    
                     for (i = 0; i < 30; i++)
                     {
                         for (j = 0; j < 30; j++)
@@ -61,13 +80,7 @@ int main()
                         }
                     }
 
-                    start_time = clock();
-                    
-                    mazeBFS(currentMaze, predecessor, &cellsExplored);
-                    
-                    end_time = clock();
-                    
-                    exec_time_ms = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000.0;
+                    mazeBFS(currentMaze, predecessor, &cellsExplored, &tempTime, 1);
 
                     path = determinePath(currentMaze, predecessor);
                     
@@ -81,7 +94,7 @@ int main()
                     printf("\n--- Simulation Metrics ---\n");
                     printf("Total cells explored : %d\n", cellsExplored);
                     printf("Final path length    : %d\n", pathLength);
-                    printf("Execution time       : %.2f ms\n", exec_time_ms);
+                    printf("Execution time       : %.6f ms\n", execTime);
 
                     deleteStack(&path);
                     
