@@ -1,22 +1,4 @@
-#ifndef STACKS_H
-#define STACKS_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "position.h"
-
-typedef struct StackNodeTag 
-{
-    Position pos; 
-    struct StackNodeTag* next; 
-} StackNode;                   
-
-typedef struct StackTag
-{
-    StackNode* top;            
-    int size;
-} Stack;
+#include "stack.h"
 
 /*
     Purpose: initializes a new, empty stack in memory
@@ -172,5 +154,3 @@ void deleteStack(Stack** stack)
         *stack = NULL;
     }
 }
-
-#endif // STACKS_H
