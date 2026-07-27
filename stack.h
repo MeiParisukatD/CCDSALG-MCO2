@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "position.h"
 
+// Stack struct declarations
 typedef struct StackNodeTag 
 {
     Position pos; 
@@ -18,6 +19,7 @@ typedef struct StackTag
     int size;
 } Stack;
 
+// Function Prototypes
 Stack* createStack();
 void push(Stack* stack, Position p);
 Position pop(Stack* stack);

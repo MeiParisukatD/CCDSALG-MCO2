@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "position.h"
 
+// Queue struct declarations
 typedef struct QueueNodeTag 
 {
     Position pos; 
@@ -19,6 +20,7 @@ typedef struct QueueTag
     int size;
 } Queue;
 
+// Function Prototypes
 Queue* createQueue();
 void enqueue(Queue* queue, Position p);
 Position dequeue(Queue* queue);
