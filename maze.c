@@ -135,7 +135,7 @@ void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored, doubl
     Queue* explore = createQueue();
     Position toExplore;
     Position up, right, down, left;
-    int visited[30][30] = {0};
+    int visited[30][30] = {{0}};
     int foundGoal = 0;
     clock_t start_tick, end_tick;
     
