@@ -12,6 +12,14 @@
 #define CLEARSCREEN "\033[H\033[J"  // escape sequence for clearing screen
 #define DELAY 50                    // display delay in milliseconds 
 
+// ANSI Escape Sequences
+#define RESET   "\033[0m"
+#define RED     "\033[1;31m"
+#define GREEN   "\033[1;32m"
+#define YELLOW  "\033[1;33m"
+#define CYAN    "\033[36m"
+#define GREEN_BG "\033[42m"
+
 // Maze struct declaration
 typedef struct {
     char map[30][30];

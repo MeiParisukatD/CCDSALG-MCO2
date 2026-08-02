@@ -1,5 +1,10 @@
 #include "maze.h"
 
+void printBorder()
+{
+    printf(YELLOW "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n" RESET);
+}
+
 int main()
 {
     int choice = 0;
@@ -18,12 +23,22 @@ int main()
 
     while (choice != 3)
     {
-        printf("\n----------------------------------\n");
-        printf("           MAZE SOLVER          \n");
-        printf("----------------------------------\n");
-        printf("1. Load Maze\n");
-        printf("2. Start Simulation\n");
-        printf("3. Exit\n");
+        printf(YELLOW "\n-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+\n");
+        printf("      ___  ___                  _____       _\n");              
+        printf("      |  \\/  |                 /  ___|     | |\n");               
+        printf("      | .  . | __ _ _______    \\ `--.  ___ | |_   _____ _ __\n"); 
+        printf("      | |\\/| |/ _` |_  / _ \\    `--. \\/ _ \\| \\ \\ / / _ \\ '__|\n");
+        printf("      | |  | | (_| |/ /  __/   /\\__/ / (_) | |\\ V /  __/ | \n");  
+        printf("      \\_|  |_/\\__,_/___\\___|   \\____/ \\___/|_| \\_/ \\___|_|\n\n");  
+        printf("                    USING BREADTH-FIRST SEARCH    \n"); 
+        printf("-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+-+H+\n\n" RESET);
+                                                       
+        printf(CYAN "[1] Load Maze\n");
+        printf("[2] Start Simulation\n");
+        printf("[3] Exit\n\n" RESET);
+
+        printBorder();
+        
         printf("Enter choice: ");
         scanf("%d", &choice);
 
@@ -44,7 +59,8 @@ int main()
                 
                 if (currentMaze != NULL)
                 {
-                    printf("Maze successfully loaded!\n");
+                    printBorder();
+                    printf(GREEN "\nMaze successfully loaded!\n" RESET);
                 }
                 break;
             
@@ -52,7 +68,8 @@ int main()
                 // if no maze map is loaded, display error message
                 if (currentMaze == NULL)
                 {
-                    printf("Error: Please load a maze first before starting the simulation.\n");
+                    printBorder();
+                    printf(RED "\nError: Please load a maze first before starting the simulation.\n" RESET);
                 }
                 else
                 {
@@ -97,16 +114,17 @@ int main()
                     path = buildPath(currentMaze, predecessor);
                     
                     // get the size of the solution path (for the metrics)
-                    if (path != NULL)
+                    if (path != NULL && path->size > 0)
                     {
-                        pathLength = path->size; 
+                        pathLength = path->size - 1; // we need to subtract 1 to offset the Start node
                     }
 
                     // then display the animation of the solution path
                     animateSolution(currentMaze, path);
 
                     // lastly, display the metrics
-                    printf("\n--- Simulation Metrics ---\n");
+                    printf("");
+                    printf(YELLOW "\n-=-=-=-=- Simulation Metrics -=-=-=-=-\n" RESET);
                     printf("Total cells explored : %d\n", cellsExplored);
                     printf("Final path length    : %d\n", pathLength);
                     printf("Execution time       : %.6f ms\n", execTime);
@@ -114,12 +132,13 @@ int main()
                     deleteStack(&path);
                     // delete the maze 
                     deleteMaze(&currentMaze);
-                    printf("\n(Maze memory cleared. Please load the maze again to rerun.)\n");
+                    printf(CYAN "\n(Maze memory cleared. Please load the maze again to rerun.)\n" RESET);
                 }
                 break;
             
             case 3:
-                printf("Exiting program. Goodbye!\n");
+                printBorder();
+                printf(CYAN "\nExiting program. Goodbye!\n" RESET);
                 if (currentMaze != NULL)
                 {
                     deleteMaze(&currentMaze);
@@ -127,7 +146,8 @@ int main()
                 break;
             
             default:
-                printf("Invalid choice. Please enter 1, 2, or 3.\n");
+                printBorder();
+                printf(RED "\nInvalid choice. Please enter 1, 2, or 3.\n" RESET);
                 break;
         }
     }

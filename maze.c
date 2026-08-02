@@ -78,7 +78,7 @@ Maze* loadMaze(char* filename)
     }
     else    // display an error message if file does not exist or inaccessible
     {
-        fprintf(stderr, "Error: Could not open file '%s'\n", filename);
+        fprintf(stderr, RED "\nError: Could not open file '%s'\n" RESET, filename);
     }
 
     return maze;
@@ -114,7 +114,12 @@ void displayMaze(Maze* maze)
     {
         for (j = 0; j < maze->width; j++)
         {
-            printf("%c", maze->map[i][j]);
+            if (maze->map[i][j] == '.')
+                printf(YELLOW "%c" RESET, maze->map[i][j]);
+            else if (maze->map[i][j] == '*')
+                printf(GREEN "%c" RESET, maze->map[i][j]);
+            else 
+                printf("%c", maze->map[i][j]);
         }
         printf("\n");
     }
@@ -135,7 +140,7 @@ void mazeBFS(Maze* maze, Position predecessor[30][30], int* cellsExplored, doubl
     Queue* explore = createQueue();
     Position toExplore;
     Position up, right, down, left;
-    int visited[30][30] = {0};
+    int visited[30][30] = {{0}};
     int foundGoal = 0;
     clock_t start_tick, end_tick;
     
@@ -281,7 +286,7 @@ void animateSolution(Maze* maze, Stack* pathStack)
     // if the pathStack is null or empty, that means that there is no solution
     if (pathStack == NULL || isEmptyStack(pathStack)) 
     {
-        printf("\nNo valid path!\n");
+        printf(RED "\nNo valid path!\n" RESET);
     } 
     else 
     {
